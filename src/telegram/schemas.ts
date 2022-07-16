@@ -44,8 +44,8 @@ interface ThemeParams {
 
 interface BackButton {
   isVisible: Boolean
-  onClick(callback): Function
-  offClick(callback): Function
+  onClick: Function
+  offClick: Function
   show(): Function
   hide(): Function
 }
@@ -57,21 +57,21 @@ interface MainButton {
   isVisible: Boolean
   isActive: Boolean
   isProgressVisible: Boolean
-  setText(text): Function
-  onClick(callback): Function
-  offClick(callback) <sup><mark>NEW</mark></sup>: Function
-  show(): Function
-  hide(): Function
-  enable(): Function
-  disable(): Function
-  showProgress(leaveActive): Function
-  hideProgress(): Function
-  setParams(params): Function
+  setText: Function
+  onClick: Function
+  offClick: Function
+  show: Function
+  hide: Function
+  enable: Function
+  disable: Function
+  showProgress: Function
+  hideProgress: Function
+  setParams: Function
 }
 
-interface HapticFeedback{
-  impactOccurred(style): Function
-  notificationOccurred(type): Function
+interface HapticFeedback {
+  impactOccurred(): Function
+  notificationOccurred(): Function
   selectionChanged(): Function
 }
 
@@ -103,7 +103,3 @@ interface WebAppChat {
   username: string
   photo_url: string
 }
-
-
-
-
