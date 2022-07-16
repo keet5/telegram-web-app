@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import ProductComponent from '@/components/ProductComponent.vue'
 import { useProductsStore } from '@/stores/products'
-
+import RippleButton from '@/components/RippleButton.vue'
+/* import { WebApp } from '@/telegram/index' */
 const store = useProductsStore()
+/* console.log(WebApp) */
 </script>
 
 <template>
@@ -11,6 +13,7 @@ const store = useProductsStore()
       <ProductComponent :id="id" />
     </article>
   </section>
+  <RippleButton />
 </template>
 
 <style scoped>

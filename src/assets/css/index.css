@@ -1,4 +1,5 @@
 @import url('telegram.css');
+@import url('base.css');
 
 @tailwind base;
 @tailwind components;

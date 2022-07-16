@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useProductsStore } from '@/stores/products'
 import lottie from 'lottie-web/build/player/lottie'
-import { defineProps, ref, onMounted, computed, watch } from 'vue'
+import { reactive, defineProps, ref, onMounted, computed, watch } from 'vue'
 
 const props = defineProps<{
   id: number
@@ -9,15 +9,18 @@ const props = defineProps<{
 
 const store = useProductsStore()
 const product = store.data[props.id]
+const quantity = ref(null)
 const view = ref(null)
+const state = reactive({ quantityAnimation: false })
 
 function increase() {
+  state.quantityAnimation = true
   store.increment(props.id)
-  store.increment()
 }
 
 function decrease() {
-  if (product.quantity) product.quantity--
+  store.decrement(props.id)
+  if (product.quantity) state.quantityAnimation = true
 }
 
 const isNotEmpty = computed(() => product.quantity != 0)
@@ -49,7 +52,17 @@ watch(
 
 <template>
   <div class="product">
-    <div class="quantity">{{ product.quantity }}</div>
+    <div
+      ref="quantity"
+      :class="{
+        'quantity-show': isNotEmpty,
+        'quantity-animation': state.quantityAnimation,
+      }"
+      class="quantity font-mono"
+      @animationend="state.quantityAnimation = false"
+    >
+      {{ product.quantity }}
+    </div>
     <div class="photo" ref="view"></div>
     <span class="info">{{ product.title }}</span>
     <span class="price"> ⋅ ${{ product.price }}</span>
@@ -74,16 +87,6 @@ watch(
 </template>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: all 1s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  width: 0px;
-  opacity: 0;
-}
 .product {
   width: 125px;
   padding: 4px 5px 21px;
@@ -92,7 +95,6 @@ watch(
   font-weight: 500;
   position: relative;
 }
-
 .quantity {
   position: absolute;
   right: 5px;
@@ -157,5 +159,34 @@ button {
 .button-decrease-show {
   visibility: visible;
   transform: scale3d(1, 1, 1);
+}
+
+.quantity {
+  background-color: var(--orange-color);
+  padding: 3px;
+  border-radius: 100%;
+  min-width: 22px;
+  height: 22px;
+  padding: 2px 6px;
+  font-size: 14px;
+  line-height: 19px;
+  border-radius: 11px;
+  font-weight: 700;
+  transform: scale3d(0, 0, 1);
+}
+
+.quantity-show {
+  transform: scale3d(1, 1, 1);
+  /* animation: quantity 0.2s; */
+}
+
+.quantity-animation {
+  animation: quantity 0.1s;
+}
+
+@keyframes quantity {
+  to {
+    transform: scale3d(1.2, 1.2, 1);
+  }
 }
 </style>

@@ -1,39 +1,25 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { MDCRipple } from '@material/ripple'
 
-const vRipple = {
-  created: (el: HTMLElemen, binding) => {
-    console.log(el)
-    console.log(binding)
-  },
-}
+onMounted(() => {
+  const buttons = document.querySelector('.mdc-button')
+  if (buttons) {
+    const buttonRipple = new MDCRipple(buttons)
+  }
+})
 </script>
 
 <template>
-  <button v-ripple="'#fff'">button</button>
+  <div class="mdc-touch-target-wrapper">
+    <button class="mdc-button mdc-button--touch">
+      <span class="mdc-button__ripple"></span>
+      <span class="mdc-button__touch"></span>
+      <span class="mdc-button__label">My Accessible Button</span>
+    </button>
+  </div>
 </template>
 
-<style scoped>
-button {
-  width: 500px;
-  height: 500px;
-  background-color: orange;
-  position: relative;
-  overflow: hidden;
-}
-
-span.ripple {
-  position: absolute; /* The absolute position we mentioned earlier */
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple 600ms linear;
-  background: red;
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
+<style lang="sass" scoped>
+@use '@material/button/styles'
 </style>
