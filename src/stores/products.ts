@@ -23,13 +23,14 @@ const products: Array<ProductSchema> = data.map(([title, price, quantity]) => ({
   appearance: `/src/assets/lottie/${title}.json`,
 }))
 
-console.log(data)
 export const useProductsStore = defineStore({
   id: 'products',
   state: () => ({
     data: products,
   }),
-  getters: {},
+  getters: {
+    isNotEmpty: (state) => state.data.some((product) => product.quantity),
+  },
   actions: {
     increment(id: number): void {
       this.data[id].quantity++
